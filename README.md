@@ -10,7 +10,10 @@
 
 ## 📸 Capturas
 
-_(Agrega aquí 3-4 screenshots del sitio en vivo: home, explorar/listado con filtros, y detalle de una carta — ver `docs/screenshots/`)_
+| | | |
+|---|---|---|
+| ![Home](docs/screenshots/01-home.png) | ![Explorar](docs/screenshots/02-explorar.png) | ![Detalle de carta](docs/screenshots/03-detalle.png) |
+| Home | Explorar con filtros | Detalle de publicación |
 
 ## 💡 El problema
 
