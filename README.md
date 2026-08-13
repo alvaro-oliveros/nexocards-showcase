@@ -2,7 +2,7 @@
 
 **El marketplace líder de trading cards en Perú**
 
-![Next.js](https://img.shields.io/badge/Next.js-15-black) ![TypeScript](https://img.shields.io/badge/TypeScript-Type--Safe-3178C6) ![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-3ECF8E) ![Tailwind](https://img.shields.io/badge/Tailwind-CSS-38B2AC) ![Vercel](https://img.shields.io/badge/Vercel-Deployed-black)
+![Next.js](https://img.shields.io/badge/Next.js-16-black) ![TypeScript](https://img.shields.io/badge/TypeScript-Type--Safe-3178C6) ![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-3ECF8E) ![Tailwind](https://img.shields.io/badge/Tailwind-CSS-38B2AC) ![Vercel](https://img.shields.io/badge/Vercel-Deployed-black)
 
 **🌐 Producto en vivo:** [nexocards.pe](https://nexocards.pe/)
 
@@ -25,7 +25,7 @@ NexoCards es un marketplace completo que conecta a la comunidad de TCG en Perú,
 
 ## ✨ Funcionalidades destacadas
 
-- **Búsqueda inteligente**: autocompletado sobre una base de 580,000+ cartas de Pokémon indexadas, con precios de mercado en vivo.
+- **Búsqueda inteligente**: autocompletado sobre una base de 24,500+ cartas indexadas entre Pokémon, Magic, Yu-Gi-Oh! y One Piece, con precios de mercado en vivo.
 - **Conversión de moneda automática**: precio USD de TCGPlayer convertido a soles con multiplicadores configurables por el vendedor.
 - **Subastas y ofertas**: pujas con incrementos fijos, precio de reserva, protección anti-sniping, y ofertas en efectivo, cartas o mixtas con contraofertas.
 - **Mensajería en tiempo real**: chat directo entre compradores y vendedores con imágenes, reacciones y notificaciones.
@@ -34,7 +34,7 @@ NexoCards es un marketplace completo que conecta a la comunidad de TCG en Perú,
 
 ## 🛠️ Stack técnico
 
-**Frontend:** Next.js 15 (App Router, Server Components), TypeScript, Tailwind CSS, shadcn/ui, Zustand
+**Frontend:** Next.js 16 (App Router, Server Components), TypeScript, Tailwind CSS, shadcn/ui, Zustand
 **Backend:** Next.js API Routes, Supabase (PostgreSQL, Auth, Storage) con Row Level Security
 **Integraciones:** eBay/TCGPlayer API para precios de mercado, Resend para notificaciones por correo, Google Analytics 4
 **Infraestructura:** Desplegado en Vercel con CI/CD automático, dominio propio (nexocards.pe)
@@ -44,13 +44,13 @@ NexoCards es un marketplace completo que conecta a la comunidad de TCG en Perú,
 - **Server Components + API Routes**: se usa el App Router de Next.js para renderizado eficiente en servidor, con rutas de API dedicadas para operaciones que requieren lógica de negocio (transacciones, ofertas, subastas).
 - **Row Level Security en Supabase**: en vez de validar permisos solo en la capa de aplicación, las reglas de acceso a datos viven también en la base de datos — así ningún endpoint puede accidentalmente exponer datos de otro usuario.
 - **Rate limiting por IP**: en endpoints sensibles (auth, mensajería, subastas) para mitigar abuso.
-- **Precios en tiempo real con fallback**: el sistema de pricing consulta la API externa pero mantiene un caché local de 580k+ cartas para no depender 100% de la disponibilidad de terceros.
+- **Precios en tiempo real con fallback**: un scraper propio actualiza diariamente un caché local de 24,500+ cartas desde TCGPlayer/eBay, para no depender 100% de la disponibilidad de terceros en cada consulta.
 
 ## 📊 Escala actual
 
 - Marketplace en producción con transacciones reales desde 2025.
 - Soporta 4 juegos de cartas coleccionables (Pokémon, Magic, Yu-Gi-Oh!, One Piece).
-- Base de datos de precios con 580,000+ cartas indexadas.
+- Base de datos de precios con 24,500+ cartas indexadas, actualizada diariamente.
 
 ## 🛣️ Roadmap
 
