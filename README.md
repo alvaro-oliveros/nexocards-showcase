@@ -46,6 +46,12 @@ NexoCards es un marketplace completo que conecta a la comunidad de TCG en Perú,
 - **Rate limiting por IP**: en endpoints sensibles (auth, mensajería, subastas) para mitigar abuso.
 - **Precios en tiempo real con fallback**: un scraper propio actualiza diariamente un caché local de 24,500+ cartas desde TCGPlayer/eBay, para no depender 100% de la disponibilidad de terceros en cada consulta.
 
+## 🐛 Bugs reales que encontré (y cómo los resolví)
+
+- **Recursión infinita en políticas RLS de `listings`/`auctions`/`bids`.** La política de `listings` necesitaba leer `bids` (vía join con `auctions`) para decidir si un postor podía seguir viendo una subasta cerrada; la política de `bids`, a su vez, necesitaba leer `listings` de vuelta para decidir si el vendedor podía ver las pujas de su propia subasta. Cada lectura disparaba la evaluación de política de la otra tabla, causando errores 500 reales en producción. Tomó varias rondas de migraciones encontrar el patrón de fondo — no hay forma de que dos tablas se restrinjan mutuamente sin crear el ciclo. La solución final rompió el ciclo a propósito, relajando `bids` a lectura pública en vez de seguir intentando "arreglar" ambos lados a la vez.
+- **El botón de aprobar verificación de vendedor no hacía nada.** Aprobar una solicitud en el panel de admin actualizaba solo el estado de la solicitud — nunca el perfil del vendedor —, así que el contador de "vendedores verificados" del home se quedaba en 0 sin importar cuántas solicitudes se aprobaran. Encontrado revisando el flujo completo, no solo el botón. Ya corregido, además diseñé la lógica que faltaba: verificación manual instantánea (para tiendas sin historial de ventas en la plataforma) y verificación automática por historial (ventas + rating sostenido) que solo puede *otorgar* el estado, nunca revocarlo — así una tienda verificada a mano nunca corre riesgo de perder el badge por un trigger de fondo.
+- **Un precio en dólares que parecía una conversión, pero no lo era.** El detalle de una publicación mostraba un monto en USD junto al precio en soles con toda la apariencia de ser la conversión de ese precio — pero en realidad era el precio de referencia de TCGPlayer/eBay, un número completamente distinto que solo coincidía en formato. Confirmé el error contra el tipo de cambio real del día (una carta de S/. 60 mostraba ≈$21.71 cuando la conversión real era ≈$17.80) y lo reemplacé por una conversión real, cacheada, contra una API de tipo de cambio en vivo.
+
 ## 📊 Escala actual
 
 - Marketplace en producción con transacciones reales desde 2025.
