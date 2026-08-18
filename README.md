@@ -1,8 +1,8 @@
 # 🃏 NexoCards
 
-**Marketplace peruano de cartas y coleccionables**
+**Marketplace y comunidad para comprar, vender e intercambiar cartas coleccionables y figuritas deportivas en Perú**
 
-![Next.js](https://img.shields.io/badge/Next.js-16-black) ![TypeScript](https://img.shields.io/badge/TypeScript-Type--Safe-3178C6) ![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-3ECF8E) ![Tailwind](https://img.shields.io/badge/Tailwind-CSS-38B2AC) ![Vercel](https://img.shields.io/badge/Vercel-Deployed-black)
+![Next.js](https://img.shields.io/badge/Next.js-16-black) ![React](https://img.shields.io/badge/React-19-61DAFB) ![TypeScript](https://img.shields.io/badge/TypeScript-Type--Safe-3178C6) ![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-3ECF8E) ![Tailwind](https://img.shields.io/badge/Tailwind-CSS-38B2AC) ![Vercel](https://img.shields.io/badge/Vercel-Deployed-black)
 
 **🌐 Producto en vivo:** [nexocards.pe](https://nexocards.pe/)
 
@@ -17,57 +17,45 @@
 
 ## 💡 El problema
 
-En Perú no existía una plataforma centralizada para comprar, vender e intercambiar cartas y figuritas coleccionables. Los coleccionistas dependían de grupos de Facebook y WhatsApp sin una forma clara de comparar referencias de precio, revisar la reputación de vendedores o gestionar transacciones.
+En Perú no existía una plataforma centralizada para comprar, vender e intercambiar cartas coleccionables (Pokémon, Magic: The Gathering, Yu-Gi-Oh!, One Piece) ni figuritas deportivas. Los coleccionistas dependían de grupos de Facebook y WhatsApp sin forma confiable de validar precios de mercado, reputación de vendedores o gestionar transacciones.
 
 ## ✅ La solución
 
-NexoCards conecta a coleccionistas peruanos de Pokémon, Magic: The Gathering, Yu-Gi-Oh!, One Piece y coleccionables deportivos. Integra referencias de precio, subastas, ofertas con contraofertas, mensajería y reputación de vendedores.
+NexoCards es un marketplace completo que conecta a la comunidad de TCG y coleccionables deportivos en Perú, con precios de referencia en tiempo real, subastas, ofertas con contraofertas, mensajería integrada y reputación de vendedores. Actualmente en beta cerrada (registro por invitación).
 
 ## ✨ Funcionalidades destacadas
 
-- **Búsqueda inteligente**: autocompletado por nombre, set, número, jugador o selección, manteniendo siempre la opción de publicar manualmente.
-- **Coleccionables deportivos**: sección unificada para figuritas del Mundial y tarjetas deportivas, con Fútbol como categoría principal y otros deportes agrupados para mantener una experiencia relevante en Perú.
-- **Conversión de moneda automática**: precio USD de TCGPlayer convertido a soles con multiplicadores configurables por el vendedor.
-- **Subastas y ofertas**: pujas con incrementos fijos, precio de reserva, protección anti-sniping, y ofertas en efectivo, cartas o mixtas con contraofertas.
-- **Mensajería en tiempo real**: chat directo entre compradores y vendedores con imágenes, reacciones y notificaciones.
-- **Reputación**: sistema de reseñas y confiabilidad de pago que se refleja en el perfil público del vendedor.
-- **Panel de administración**: gestión de usuarios, publicaciones, transacciones y cola de verificación.
+- **Búsqueda inteligente**: autocompletado sobre una base de cartas de Pokémon indexada localmente, más un catálogo interno de figuritas deportivas (Mundiales 2018, 2022 y 2026).
+- **Precios de referencia**: TCGPlayer para cartas coleccionables y anuncios activos de eBay para deportes — se muestran como precios solicitados, y el vendedor decide si los aplica.
+- **Subastas y ofertas**: pujas con incrementos fijos, precio de reserva, protección anti-sniping, finalización e historial público de pujas automáticos, con re-listado de subastas vencidas. Ofertas en efectivo, cartas, o mixtas con auto-valuación y contraofertas.
+- **Mensajería en tiempo real**: chat directo entre compradores y vendedores con imágenes, reacciones, indicador de "escribiendo" y notificaciones.
+- **Reputación**: sistema de reseñas y confiabilidad de pago combinados en un rating por perfil público, con historial de ventas.
+- **Favoritos y notificaciones**: guardado de publicaciones, notificaciones in-app y por correo configurables por canal/evento.
+- **Panel de administración**: KPIs, gestión de usuarios/publicaciones/transacciones y cola de verificación.
 
 ## 🛠️ Stack técnico
 
-**Frontend:** Next.js 16 (App Router, Server Components), TypeScript, Tailwind CSS, shadcn/ui, Zustand
-**Backend:** Next.js API Routes, Supabase (PostgreSQL, Auth, Storage) con Row Level Security
-**Integraciones:** eBay/TCGPlayer API para precios de mercado, Resend para notificaciones por correo, Google Analytics 4
-**Infraestructura:** Desplegado en Vercel con CI/CD automático, dominio propio (nexocards.pe)
-
-## 🆕 Avances de agosto de 2026
-
-- NexoCards amplió el marketplace más allá de los TCG con una sección de coleccionables deportivos y una entrada única para Figuritas del Mundial.
-- El homepage ahora rota diariamente sus publicaciones destacadas, evita duplicarlas en la sección reciente y utiliza un encuadre más cercano de las fotos.
-- Se refinó la jerarquía visual de las métricas principales y se restauró el acceso contextual al panel de administración para cuentas autorizadas.
-- Las referencias de eBay distinguen claramente entre anuncios activos y ventas cerradas: se muestran como orientación, con rango y tamaño de muestra, y nunca se aplican sin decisión del vendedor.
+**Frontend:** Next.js 16 (App Router, Turbopack), React 19, TypeScript, Tailwind CSS, shadcn/ui (Radix), Zustand + TanStack Query
+**Backend:** Next.js API Routes, Supabase (PostgreSQL, Auth, Storage) con Row Level Security, validación con Zod
+**Integraciones:** TCGPlayer y eBay Browse API como referencia de precios, Resend para notificaciones por correo, Google Analytics 4
+**Infraestructura:** Desplegado en Vercel, dominio propio (nexocards.pe)
 
 ## 🏗️ Decisiones de arquitectura (a nivel general)
 
-- **Server Components + API Routes**: se usa el App Router de Next.js para renderizado eficiente en servidor, con rutas de API dedicadas para operaciones que requieren lógica de negocio (transacciones, ofertas, subastas).
 - **Row Level Security en Supabase**: en vez de validar permisos solo en la capa de aplicación, las reglas de acceso a datos viven también en la base de datos — así ningún endpoint puede accidentalmente exponer datos de otro usuario.
-- **Rate limiting por IP**: en endpoints sensibles (auth, mensajería, subastas) para mitigar abuso.
-- **Referencias desacopladas de terceros**: el producto combina datos actualizados periódicamente con consultas puntuales y caché, evitando depender de una sola API durante la publicación.
-
-## 🐛 Bugs reales que encontré (y cómo los resolví)
-
-- **Recursión infinita en políticas RLS de `listings`/`auctions`/`bids`.** La política de `listings` necesitaba leer `bids` (vía join con `auctions`) para decidir si un postor podía seguir viendo una subasta cerrada; la política de `bids`, a su vez, necesitaba leer `listings` de vuelta para decidir si el vendedor podía ver las pujas de su propia subasta. Cada lectura disparaba la evaluación de política de la otra tabla, causando errores 500 reales en producción. Tomó varias rondas de migraciones encontrar el patrón de fondo — no hay forma de que dos tablas se restrinjan mutuamente sin crear el ciclo. La solución final rompió el ciclo a propósito, relajando `bids` a lectura pública en vez de seguir intentando "arreglar" ambos lados a la vez.
-- **El botón de aprobar verificación de vendedor no hacía nada.** Aprobar una solicitud en el panel de admin actualizaba solo el estado de la solicitud — nunca el perfil del vendedor —, así que el contador de "vendedores verificados" del home se quedaba en 0 sin importar cuántas solicitudes se aprobaran. Encontrado revisando el flujo completo, no solo el botón. Ya corregido, además diseñé la lógica que faltaba: verificación manual instantánea (para tiendas sin historial de ventas en la plataforma) y verificación automática por historial (ventas + rating sostenido) que solo puede *otorgar* el estado, nunca revocarlo — así una tienda verificada a mano nunca corre riesgo de perder el badge por un trigger de fondo.
-- **Un precio en dólares que parecía una conversión, pero no lo era.** El detalle de una publicación mostraba un monto en USD junto al precio en soles con toda la apariencia de ser la conversión de ese precio — pero en realidad era el precio de referencia de TCGPlayer/eBay, un número completamente distinto que solo coincidía en formato. Confirmé el error contra el tipo de cambio real del día (una carta de S/. 60 mostraba ≈$21.71 cuando la conversión real era ≈$17.80) y lo reemplacé por una conversión real, cacheada, contra una API de tipo de cambio en vivo.
+- **Guards de servidor como autorización definitiva**: la mayoría de rutas protegidas se validan explícitamente en el servidor (no solo vía middleware de framework), para que la autorización no dependa de una sola capa.
+- **Rate limiting por IP**: en endpoints sensibles para mitigar abuso.
+- **Precios con fallback local**: el sistema de pricing consulta fuentes externas pero mantiene un caché local de cartas indexadas para no depender al 100% de la disponibilidad de terceros.
 
 ## 📊 Escala actual
 
-- Marketplace en producción con transacciones reales desde 2025.
-- Soporta Pokémon, Magic: The Gathering, Yu-Gi-Oh!, One Piece y coleccionables deportivos.
+- Marketplace en producción, en beta cerrada con crecimiento activo desde 2025.
+- Soporta 4 juegos de cartas coleccionables (Pokémon, Magic, Yu-Gi-Oh!, One Piece) más figuritas y cartas deportivas.
+- Base de datos de precios de Pokémon indexada localmente como caché, además del catálogo de otros juegos y deportes.
 
 ## 🛣️ Roadmap
 
-Integración de pagos locales (Yape/Plin, tarjetas), sistema de escrow para subastas y ofertas, expansión a otros países de Latinoamérica.
+Pasarela de pago real / escrow (Yape, Plin, Culqi, Stripe) — hoy no implementado — y expansión de criterios de confianza y crecimiento. Ver detalle en el roadmap interno del proyecto.
 
 ## 👨‍💻 Mi rol
 
