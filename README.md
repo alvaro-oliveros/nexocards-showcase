@@ -6,14 +6,22 @@
 
 **🌐 Producto en vivo:** [nexocards.pe](https://nexocards.pe/)
 
-> Este repositorio es una vitrina del proyecto. El código fuente es privado — NexoCards es un producto en producción con usuarios y transacciones reales, así que el repositorio de desarrollo no es público. Aquí documento el problema, las decisiones técnicas y el resultado.
+> Este repositorio es una vitrina del proyecto. El código fuente es privado — NexoCards es un producto en producción con usuarios reales, así que el repositorio de desarrollo no es público. Aquí documento el problema, las decisiones técnicas y el resultado.
 
 ## 📸 Capturas
 
 | | | |
 |---|---|---|
-| ![Home](docs/screenshots/01-home.png) | ![Explorar](docs/screenshots/02-explorar.png) | ![Detalle de carta](docs/screenshots/03-detalle.png) |
-| Home | Explorar con filtros | Detalle de publicación |
+| ![Home](docs/screenshots/01-home.png) | ![Explorar](docs/screenshots/02-explorar.png) | ![Detalle de publicación](docs/screenshots/03-detalle.png) |
+| Home | Explorar con filtros | Detalle con referencia de mercado |
+| ![Buscados](docs/screenshots/04-buscados.png) | ![Ofertas y chat](docs/screenshots/05-ofertas-chat.png) | |
+| Buscados con coincidencias | Demo animada del onboarding: oferta y chat | |
+
+## 📍 Estado actual (octubre 2026)
+
+- **En producción, en beta cerrada:** el marketplace se puede explorar sin cuenta; el registro es por invitación.
+- **0% de comisión durante la beta.** NexoCards todavía no procesa ni retiene pagos: comprador y vendedor coordinan el pago y la entrega por el chat, con plazos y reputación visibles.
+- **Precios de referencia de los 4 juegos de cartas** que se actualizan a diario con un proceso automático y revisado antes de publicarse.
 
 ## 💡 El problema
 
@@ -21,45 +29,64 @@ En Perú no existía una plataforma centralizada para comprar, vender e intercam
 
 ## ✅ La solución
 
-NexoCards es un marketplace completo que conecta a la comunidad de TCG y coleccionables deportivos en Perú, con precios de referencia en tiempo real, subastas, ofertas con contraofertas, mensajería integrada y reputación de vendedores. Actualmente en beta cerrada (registro por invitación).
+Un marketplace completo para la comunidad de TCG y coleccionables deportivos en Perú: precios de referencia, ofertas e intercambios, mensajería, reputación pública y reglas claras para que un trato no quede en el aire.
 
 ## ✨ Funcionalidades destacadas
 
-- **Búsqueda inteligente**: autocompletado sobre una base de cartas de Pokémon indexada localmente, más un catálogo interno de figuritas deportivas (Mundiales 2018, 2022 y 2026).
-- **Precios de referencia**: TCGPlayer para cartas coleccionables y anuncios activos de eBay para deportes — se muestran como precios solicitados, y el vendedor decide si los aplica.
-- **Subastas y ofertas**: pujas con incrementos fijos, precio de reserva, protección anti-sniping, finalización e historial público de pujas automáticos, con re-listado de subastas vencidas. Ofertas en efectivo, cartas, o mixtas con auto-valuación y contraofertas.
-- **Mensajería en tiempo real**: chat directo entre compradores y vendedores con imágenes, reacciones, indicador de "escribiendo" y notificaciones.
-- **Reputación**: sistema de reseñas y confiabilidad de pago combinados en un rating por perfil público, con historial de ventas.
-- **Favoritos y notificaciones**: guardado de publicaciones, notificaciones in-app y por correo configurables por canal/evento.
-- **Panel de administración**: KPIs, gestión de usuarios/publicaciones/transacciones y cola de verificación.
+**Descubrir y comprar**
+- **Búsqueda con autocompletado** sobre el catálogo de los 4 juegos y los checklists de los Mundiales 2018, 2022 y 2026.
+- **Referencia de mercado:** TCGPlayer (con historial de precios) para cartas y anuncios activos de eBay para deportes. Es orientación: el vendedor decide su precio.
+- **Favoritos y filtros** por juego, tipo de venta, precio, condición y cartas gradeadas (PSA y otras certificadoras).
+- **Buscados:** el usuario anota las cartas que busca (precio máximo, condición mínima) y ve al instante lo que ya está en venta; lo que se publique después le llega en un resumen diario.
+- **Copias agrupadas:** varias copias idénticas de un vendedor se muestran como una sola tarjeta («x4 disponibles»).
+
+**Vender**
+- **Identificación de cartas con IA** a partir de una foto, para autocompletar la publicación.
+- **Colección privada:** cada copia física se registra una vez y se publica u ofrece sin volver a capturar sus datos.
+- **Carga masiva** por CSV, con cuota diaria para cuentas no verificadas.
+- **Fotos en alta resolución** con recorte y acceso a la foto original.
+
+**Negociar y cerrar tratos**
+- **Ofertas en efectivo, en cartas o mixtas,** con contraofertas. Las cartas ofrecidas quedan reservadas mientras la oferta está abierta.
+- **Intercambios** que solo se completan cuando ambas partes confirman; los términos acordados quedan congelados como evidencia.
+- **Subastas** con precio de reserva, anti-sniping e historial público de pujas — pausadas durante la beta hasta que las pujas sean atómicas en la base.
+- **Plazos claros:** el vendedor tiene ≈48 h para aceptar una compra; si no responde, se cancela sola y la carta vuelve a estar disponible.
+- **Mensajería** con imágenes y reacciones, y notificaciones in-app y por correo configurables por el usuario.
+
+**Confianza y seguridad**
+- **Reputación pública:** reseñas, ventas completadas y badges según el comportamiento real («Responde rápido», «Cancela ventas»).
+- **Vendedores verificados** por identidad (DNI) o por historial.
+- **Reportes, suspensión de cuentas y disputas** con plazos publicados; **Libro de Reclamaciones** virtual.
+- **Panel de administración** con KPIs, moderación, verificaciones, invitaciones y estado de los procesos automáticos.
 
 ## 🛠️ Stack técnico
 
 **Frontend:** Next.js 16 (App Router, Turbopack), React 19, TypeScript, Tailwind CSS, shadcn/ui (Radix), Zustand + TanStack Query
 **Backend:** Next.js API Routes, Supabase (PostgreSQL, Auth, Storage) con Row Level Security, validación con Zod
-**Integraciones:** TCGPlayer y eBay Browse API como referencia de precios, Resend para notificaciones por correo, Google Analytics 4
-**Infraestructura:** Desplegado en Vercel, dominio propio (nexocards.pe)
+**Integraciones:** TCGPlayer y eBay Browse API como referencia de precios, modelos de visión (OpenAI) para identificar cartas desde fotos, Resend para correos, Google Analytics 4 (con consentimiento)
+**Infraestructura:** Vercel (Preview por cada PR y Production con bases de datos separadas), GitHub Actions para tareas programadas, dominio propio (nexocards.pe)
 
 ## 🏗️ Decisiones de arquitectura (a nivel general)
 
-- **Row Level Security en Supabase**: en vez de validar permisos solo en la capa de aplicación, las reglas de acceso a datos viven también en la base de datos — así ningún endpoint puede accidentalmente exponer datos de otro usuario.
-- **Guards de servidor como autorización definitiva**: la mayoría de rutas protegidas se validan explícitamente en el servidor (no solo vía middleware de framework), para que la autorización no dependa de una sola capa.
-- **Rate limiting por IP**: en endpoints sensibles para mitigar abuso.
-- **Precios con fallback local**: el sistema de pricing consulta fuentes externas pero mantiene un caché local de cartas indexadas para no depender al 100% de la disponibilidad de terceros.
+- **Row Level Security en Supabase**: las reglas de acceso viven también en la base de datos, no solo en la API, como segunda barrera contra exponer datos de otro usuario.
+- **Reglas de negocio críticas en PostgreSQL**: reservas de cartas, cuotas y transiciones de una transacción se resuelven dentro de la base de datos, para que dos acciones simultáneas no puedan vender la misma carta dos veces.
+- **Historial inmutable**: al confirmar una compra o aceptar una oferta se guarda una copia de los términos (carta, oferta, valores y referencia de mercado) que no puede modificarse después.
+- **Automatización revisable**: los precios diarios llegan como un Pull Request que se aprueba antes de publicarse, y un proceso programado aplica los plazos vencidos.
+- **Autorización en el servidor** en cada endpoint sensible, además del middleware, para que no dependa de una sola capa.
 
 ## 📊 Escala actual
 
-- Marketplace en producción, en beta cerrada con crecimiento activo desde 2025.
-- Soporta 4 juegos de cartas coleccionables (Pokémon, Magic, Yu-Gi-Oh!, One Piece) más figuritas y cartas deportivas.
-- Base de datos de precios de Pokémon indexada localmente como caché, además del catálogo de otros juegos y deportes.
+- Marketplace en producción desde 2025, hoy en beta cerrada por invitación.
+- 4 juegos de cartas (Pokémon, Magic, Yu-Gi-Oh!, One Piece) más figuritas y cartas deportivas.
+- ~50,000 precios de referencia en 191 sets, con historial de cambios; los 75 sets más activos se actualizan a diario.
 
 ## 🛣️ Roadmap
 
-Pasarela de pago real / escrow (Yape, Plin, Culqi, Stripe) — hoy no implementado — y expansión de criterios de confianza y crecimiento. Ver detalle en el roadmap interno del proyecto.
+Pasarela de pago real / escrow (Yape, Plin, Culqi, Stripe) — hoy no implementado —, apertura progresiva de la beta y páginas por carta cuando haya más volumen de publicaciones.
 
 ## 👨‍💻 Mi rol
 
-Desarrollo full-stack end-to-end: diseño de producto, arquitectura de base de datos, integración de APIs externas de pricing, sistema de subastas/ofertas, y despliegue en producción.
+Desarrollo full-stack end-to-end: diseño de producto, arquitectura de base de datos, integración de APIs externas de pricing, sistema de ofertas, intercambios y subastas, automatizaciones y despliegue en producción.
 
 ---
 
